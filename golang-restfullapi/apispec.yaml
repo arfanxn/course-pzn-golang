@@ -1,0 +1,173 @@
+openapi: 3.0.2
+info:
+    title: Category Restfull API
+    version: "1.0"
+servers:
+    - url: http://localhost:8080/api
+paths:
+    "/categories":
+        get:
+            tags:
+                - "Categories"
+            description: "Retrieve categories"
+            summary: "Retrieve categories"
+            security:
+                - Authorization: []
+            responses:
+                "200":
+                    description: "Successfully retrieved categories"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: number
+                                    status:
+                                        type: string
+                                    data:
+                                        type: array
+                                        items:
+                                            $ref: "#/components/schemas/CategoryR"
+        post:
+            tags:
+                - "Categories"
+            description: "Create new category"
+            summary: "Create new category"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CategoryCU"
+            security:
+                - Authorization: []
+            responses:
+                "200":
+                    description: "Successfully create category"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: number
+                                    status:
+                                        type: string
+                                    data:
+                                        $ref: "#/components/schemas/CategoryR"
+    "/categories/{categoryID}":
+        get:
+            tags:
+                - "Categories"
+            description: "Retrieve category by ID"
+            summary: "Retrieve category by ID"
+            parameters:
+                - name: categoryID
+                  in: path
+                  required: true
+                  description: "Category ID"
+                  schema:
+                      type: integer
+                      format: int64
+                      minimum: 1
+            security:
+                - Authorization: []
+            responses:
+                "200":
+                    description: "Successfully retrieved category by ID"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: number
+                                    status:
+                                        type: string
+                                    data:
+                                        $ref: "#/components/schemas/CategoryR"
+        put:
+            tags:
+                - "Categories"
+            description: "Update category by ID"
+            summary: "Update category by ID"
+            parameters:
+                - name: categoryID
+                  in: path
+                  required: true
+                  description: "Category ID"
+                  schema:
+                      type: integer
+                      format: int64
+                      minimum: 1
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CategoryCU"
+            security:
+                - Authorization: []
+            responses:
+                "200":
+                    description: "Successfully updated category by ID"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: number
+                                    status:
+                                        type: string
+                                    data:
+                                        $ref: "#/components/schemas/CategoryR"
+        delete:
+            tags:
+                - "Categories"
+            description: "Delete category by ID"
+            summary: "Delete category by ID"
+            parameters:
+                - name: categoryID
+                  in: path
+                  required: true
+                  description: "Category ID"
+                  schema:
+                      type: integer
+                      format: int64
+                      minimum: 1
+            security:
+                - Authorization: []
+            responses:
+                "200":
+                    description: "Successfully deleted category by ID"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    code:
+                                        type: number
+                                    status:
+                                        type: string
+
+##################################################################################################################
+components:
+    securitySchemes:
+        Authorization:
+            type: "apiKey"
+            in: "header"
+            name: "X-Auth-Token"
+            description: "Authorization token"
+    schemas:
+        CategoryR:
+            type: object
+            properties:
+                id:
+                    type: number
+                name:
+                    type: string
+        CategoryCU:
+            type: object
+            properties:
+                name:
+                    type: string
